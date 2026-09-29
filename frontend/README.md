@@ -1,203 +1,156 @@
-# 🧪 Usability Test Dashboard 2.0
+# IHC — Frontend
 
-> Rediseño UX/UI, integración de inteligencia artificial y planificación ágil SCRUM sobre el aplicativo web **Usability Test Dashboard**.
+Plataforma de planificación y ejecución de pruebas de usabilidad, con un módulo de IA simulado (a futuro, Google Gemini). Este `README.md` documenta únicamente la carpeta `frontend/`.
 
-Proyecto integrador final — evolución del sistema existente para el análisis de pruebas de usabilidad, incorporando un módulo de IA para interpretar hallazgos y un módulo de planificación ágil SCRUM.
-
----
-
-## 📋 Módulos del sistema
-
-| # | Módulo | Descripción |
-|---|--------|-------------|
-| 1️⃣ | **Evaluaciones de usabilidad** | Registro de pruebas, tareas, observaciones, tiempo, errores y satisfacción |
-| 2️⃣ | **Dashboard de resultados** | Visualización de métricas, hallazgos frecuentes, severidad y tendencias |
-| 3️⃣ | **IA para análisis UX** | Resumen automático de observaciones, clasificación de problemas y sugerencias |
-| 4️⃣ | **Rediseño y evidencia de mejora** | Pantalla actual, problema detectado, propuesta visual y justificación |
-| 5️⃣ | **Planificación ágil SCRUM** | Backlog, historias, sprints, tablero de tareas, review y retrospectiva |
+> **Estado actual:** el frontend se está construyendo módulo por módulo. Completados: **Login** y **Dashboard**. Los módulos Pruebas, Observaciones, Matrices heurísticas e Historias de usuario están planificados pero aún muestran una pantalla "Próximamente" (ver [Rutas](#rutas)).
 
 ---
 
-## 🏗️ Arquitectura técnica
+## Requisitos
 
-| Capa | Tecnología | Responsabilidad |
-|------|------------|------------------|
-| 🎨 Frontend | React | Componentes atómicos y estado asíncrono |
-| ⚙️ Backend | NestJS | `AiModule` con controlador y servicio |
-| 🧠 Ingeniería de prompt | — | System prompt restrictivo, salida en JSON estricto |
-| 📤 Exportación | Pipeline propio | JSON → Markdown → PDF |
+- **Node.js 18+** (recomendado 20 LTS) — `node -v`
+- **npm** (incluido con Node) — `npm -v`
 
----
-
-## 📁 Estructura del proyecto
-
-```
-usability-test-dashboard-2/
-├── 📄 README.md
-├── 📄 .gitignore
-├── 📄 .env.example
-├
-│
-├── 🎨 frontend/                    # React
-│   ├── package.json
-│   ├── vite.config.ts
-│   ├── public/
-│   └── src/
-│       ├── main.tsx
-│       ├── App.tsx
-│       ├── components/             # componentes atómicos
-│       │   ├── atoms/
-│       │   ├── molecules/
-│       │   └── organisms/
-│       ├── pages/
-│       │   ├── evaluaciones/       # 1️⃣ Evaluaciones
-│       │   ├── dashboard/          # 2️⃣ Dashboard
-│       │   ├── ia-analisis/        # 3️⃣ IA
-│       │   ├── rediseno/           # 4️⃣ Rediseño
-│       │   └── scrum/              # 5️⃣ SCRUM
-│       │       ├── Backlog.tsx
-│       │       ├── SprintBoard.tsx
-│       │       ├── SprintReview.tsx
-│       │       └── Retrospectiva.tsx
-│       ├── hooks/                  # estado asíncrono
-│       ├── services/               # llamadas API al backend
-│       │   ├── api.ts
-│       │   ├── evaluaciones.service.ts
-│       │   ├── ia.service.ts
-│       │   └── scrum.service.ts
-│       ├── types/                  # interfaces TS compartidas
-│       └── styles/
-│
-└── ⚙️ backend/                     # NestJS
-    ├── package.json
-    ├── nest-cli.json
-    ├── tsconfig.json
-    └── src/
-        ├── main.ts
-        ├── app.module.ts
-        │
-        ├── evaluaciones/           # 1️⃣ Evaluaciones
-        │   ├── evaluaciones.module.ts
-        │   ├── evaluaciones.controller.ts
-        │   ├── evaluaciones.service.ts
-        │   ├── entities/
-        │   └── dto/
-        │
-        ├── dashboard/               # 2️⃣ Dashboard
-        │   ├── dashboard.module.ts
-        │   ├── dashboard.controller.ts
-        │   └── dashboard.service.ts
-        │
-        ├── ai/                      # 3️⃣ IA — AiModule
-        │   ├── ai.module.ts
-        │   ├── ai.controller.ts
-        │   ├── ai.service.ts
-        │   ├── prompts/
-        │   │   ├── system-prompt.ts
-        │   │   └── schemas/
-        │   └── dto/
-        │       ├── analyze-request.dto.ts
-        │       └── analyze-response.dto.ts
-        │
-        ├── rediseno/                # 4️⃣ Rediseño
-        │   ├── rediseno.module.ts
-        │   ├── rediseno.controller.ts
-        │   └── rediseno.service.ts
-        │
-        ├── scrum/                   # 5️⃣ SCRUM
-        │   ├── scrum.module.ts
-        │   ├── backlog/
-        │   ├── sprints/
-        │   ├── tasks/
-        │   └── retrospectiva/
-        │
-        ├── export/                  # 📤 Pipeline JSON → Markdown → PDF
-        │   ├── export.module.ts
-        │   ├── export.controller.ts
-        │   ├── export.service.ts
-        │   ├── json-to-markdown.ts
-        │   └── markdown-to-pdf.ts
-        │
-        ├── common/                  # guards, interceptors, filtros
-        └── config/                  # configuración de DB y entorno
-```
-
----
-
-## ✅ Requisitos previos
-
-- 🟢 Node.js 18+
-- 📦 npm o yarn
-- 🗄️ Base de datos (especificar motor y versión)
-- 🔑 Clave de API del proveedor de IA (ver `.env.example`)
-
----
-
-## 🚀 Instalación
-
-Clonar el repositorio:
-
-```bash
-git clone <url-del-repo>
-cd nombrerepo
-```
-
-### ⚙️ Backend
-
-```bash
-cd backend
-npm install
-cp .env.example .env   # completar variables de entorno
-npm run start:dev
-```
-
-### 🎨 Frontend
+## Instalación
 
 ```bash
 cd frontend
 npm install
-cp .env.example .env   # completar variables de entorno
 npm run dev
 ```
 
----
+La app queda disponible en `http://localhost:5173` (o el puerto que indique la terminal).
 
-## 🔐 Variables de entorno
+### Variables de entorno
 
-Ver `.env.example` en cada carpeta (`backend/` y `frontend/`). Como mínimo se requiere:
+Copia el archivo de ejemplo:
 
-- `DATABASE_URL`
-- `AI_API_KEY`
-- `PORT` (backend)
-- `VITE_API_URL` (frontend, si aplica)
+```bash
+cp .env.example .env
+```
 
----
-
-## 📜 Scripts principales
-
-| Comando | Ubicación | Descripción |
-|---------|-----------|-------------|
-| `npm run start:dev` | backend | Levanta el servidor NestJS en modo desarrollo |
-| `npm run dev` | frontend | Levanta el servidor de desarrollo de React |
-| `npm run build` | ambos | Compila para producción |
-| `npm run test` | backend | Corre pruebas unitarias |
+| Variable | Descripción | Valor por defecto |
+|---|---|---|
+| `VITE_API_URL` | URL base del backend (NestJS). Hoy no se usa: todo el frontend corre con datos mock. | `http://localhost:3000` |
 
 ---
 
-## 🌿 Convención de ramas
+## Stack
 
-- `main` → versiones entregables 🚢
-- `develop` → integración continua del equipo 🔄
-- `feature/<modulo>-<nombre>` → trabajo individual por módulo (ej. `feature/scrum-sprint-board`)
-
----
-
-## 👥 Equipo
-
-
+- React 18 + TypeScript + Vite
+- Tailwind CSS
+- `react-router-dom`
+- `lucide-react` (íconos)
+- Gráficos: SVG propio, sin librerías externas
+- Estado: React Context + hooks (sin Redux)
+- Sin backend: toda la información viene de `services/`, que hoy devuelven mocks con retardo simulado (300–600 ms)
 
 ---
 
-## 📄 Licencia
+## Estructura de carpetas
 
-Proyecto académico — Universidad Técnica de Ambato (UTA) 🎓
+```
+frontend/
+├─ src/
+│  ├─ app/                # Layout compartido: AppLayout, Sidebar, Topbar
+│  ├─ components/ui/      # Componentes base reutilizables: Button, Card, Badge,
+│  │                        StatusBadge, FormField, Table, Toast, Skeleton,
+│  │                        EstadoError, PaginaProximamente...
+│  ├─ features/
+│  │  ├─ auth/            # AuthContext, ProtectedRoute, LoginPage
+│  │  ├─ dashboard/        # DashboardPage + sus componentes (KpiCard, TendenciaChart...)
+│  │  ├─ pruebas/          # (pendiente)
+│  │  ├─ observaciones/    # (pendiente)
+│  │  ├─ matrices/         # (pendiente)
+│  │  └─ historias/        # (pendiente)
+│  ├─ services/            # 1 función async por operación. Hoy devuelven mocks.
+│  │                          Cada función tiene un comentario // TODO(backend): ...
+│  │                          con el endpoint que se espera al conectar NestJS.
+│  ├─ mocks/                # Datos simulados que consumen los services
+│  ├─ types/                # Interfaces TS compartidas (fuente de verdad del contrato con el backend)
+│  ├─ utils/                # exportarCsv, formatearFecha, useAsync, useDismiss, esperar/retardo
+│  ├─ App.tsx               # Definición de rutas
+│  └─ main.tsx
+├─ .env.example
+├─ tailwind.config.js
+├─ vite.config.ts
+└─ package.json
+```
+
+**Regla de la capa de servicios:** ningún componente importa `mocks/` directamente. Siempre se llama a una función de `services/*` (ej. `dashboardService.obtenerResumen(periodo)`), que hoy resuelve con datos mock y en el futuro hará el `fetch` real al backend.
+
+---
+
+## Rutas
+
+| Ruta | Módulo | Estado |
+|---|---|---|
+| `/login` | Autenticación | ✅ Funcional |
+| `/dashboard` | Dashboard — Resumen de Actividad | ✅ Funcional |
+| `/pruebas`, `/pruebas/nueva`, `/pruebas/:id/ejecucion` | Pruebas | 🚧 Próximamente |
+| `/observaciones`, `/observaciones/nueva`, `/observaciones/:id` | Observaciones | 🚧 Próximamente |
+| `/matrices/marco`, `/matrices/carga`, `/matrices/mapeo`, `/matrices/resultado` | Matrices heurísticas | 🚧 Próximamente |
+| `/historias`, `/historias/:id` | Historias de usuario | 🚧 Próximamente |
+| `/configuracion` | Configuración | 🚧 Próximamente (fuera de alcance del proyecto) |
+
+Todas las rutas excepto `/login` están protegidas por `ProtectedRoute`: si no hay sesión iniciada, redirigen a `/login`.
+
+---
+
+## Credenciales de prueba (mock)
+
+```
+Correo:      demo@ihc.com
+Contraseña:  Demo1234
+```
+
+No existe backend de autenticación real: `authService.iniciarSesion` valida estas credenciales de forma local y guarda al usuario en `sessionStorage` mientras dura la pestaña.
+
+---
+
+## Cómo reemplazar un servicio mock por una llamada real
+
+Cada archivo en `src/services/` expone funciones async con la forma final que va a tener la integración. Para conectar el backend NestJS:
+
+1. Ubica la función en `services/` (por ejemplo, `dashboardService.obtenerResumen`).
+2. Revisa el comentario `// TODO(backend): GET /dashboard/resumen?periodo=...` que indica el endpoint, método y parámetros esperados.
+3. Reemplaza el cuerpo de la función, que hoy hace algo así:
+
+   ```ts
+   async obtenerResumen(periodo: Periodo): Promise<ResumenDashboard> {
+     await retardo();
+     return { /* datos mock */ };
+   }
+   ```
+
+   por una llamada real usando `VITE_API_URL`, por ejemplo:
+
+   ```ts
+   async obtenerResumen(periodo: Periodo): Promise<ResumenDashboard> {
+     const res = await fetch(`${import.meta.env.VITE_API_URL}/dashboard/resumen?periodo=${periodo}`);
+     if (!res.ok) throw new Error('No pudimos cargar el resumen del dashboard.');
+     return res.json();
+   }
+   ```
+
+4. **No es necesario tocar los componentes.** Como todos consumen `services/*` (nunca `mocks/*` directamente) y los tipos de `types/` ya reflejan el contrato esperado, el cambio queda aislado en el archivo de servicio.
+5. Elimina o conserva `mocks/` según convenga para pruebas y Storybook/tests, pero deja de ser la fuente de datos en producción.
+
+> El detalle completo de cada endpoint (método, ruta, shape de request/response) vive en `HANDOFF_BACKEND.md`, en la raíz del repositorio.
+
+---
+
+## Scripts disponibles
+
+| Comando | Descripción |
+|---|---|
+| `npm run dev` | Levanta el entorno de desarrollo |
+| `npm run build` | Compila para producción (`tsc` + `vite build`) |
+| `npm run preview` | Sirve localmente el build de producción |
+| `npm run lint` | Corre ESLint |
+
+---
+
+## Accesibilidad y UX
+
+El proyecto sigue Ley de Fitts, principios de Gestalt, las 10 heurísticas de Nielsen (mínimo 5 aplicadas y comentadas en el código) y POUR/WCAG AA. El detalle por módulo está en `NOTAS_UX.md`, en la raíz del repositorio.
